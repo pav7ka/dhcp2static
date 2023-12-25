@@ -24,7 +24,7 @@ TEMP_DIR="/dev/shm"
 #TEMP_DIR="/root"
 
 # аргументы для подстановки в nmcli
-DOM="d0.vsw.ru"
+DOM="XX.XXX.ru"
 
 HOSTNAME="$1"
 
