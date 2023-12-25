@@ -144,7 +144,7 @@ fill_arr "DEVICE" # DEV_ARR
 fill_arr "TYPE" # TYP_ARR
 fill_arr "STATE" # STAT_ARR
 
-# начинаем пробегать по массиву с данными TYPE , нам нужен тип "ethernet"
+# начинаем пробегать по массиву с данными TYPE , нам нужен тип "disconnected" и "ethernet"
 for idx in ${!TYP_ARR[*]}
 do
     if [[ "${STAT_ARR[$idx]}" == "disconnected" && "${TYP_ARR[$idx]}" == "ethernet" ]]
@@ -188,7 +188,7 @@ rm $TEMP_FILE
 #echo ${#STAT_ARR[*]} ${STAT_ARR[*]}
 
 
-# начинаем пробегать по массиву с данными TYPE , нам нужен тип "ethernet"
+# начинаем пробегать по массиву с данными TYPE , нам нужен тип "auto" и "ethernet" и "connected"
 for idx in ${!TYP_ARR[*]}
 do
 # отбрасываем индексы если в них есть маркер пустой строки NULL
