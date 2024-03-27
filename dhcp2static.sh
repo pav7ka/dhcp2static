@@ -28,6 +28,13 @@ DOM="XX.XXX.ru"
 
 HOSTNAME="$1"
 
+# ограничение nmcli
+#https://github.com/NetworkManager/NetworkManager/blob/main/NEWS
+#Add "ipv6.method=disabled" to disable IPv6 on a device, like also possible for
+#IPv4. Until now, the users could only set "ipv6.method=ignore" which means the
+#users are free to set IPv6 related sysctl values themselves
+NMCLI_VER="1.19.99"
+
 echo -e "\n  СРИПТ НАЧАЛ РАБОТУ\n======================"
 #   nmcli можно только или от root или sudo
 # проверяет от кого запущен
@@ -129,6 +136,11 @@ function hostnm() {
     nmcli general hostname "$1"
 }
 
+function check_ver() {
+    VER = "${nmcli -v | awk '{ print $4 }'}"
+    if 
+}
+
 #
 # логика обработки выключенных сетевых устройств
 # они не имеют UUID ( он пустой )  пока не включишь
@@ -211,7 +223,17 @@ do
             set_val "${DEV_ARR[$idx]}" "ipv4.method" "manual"
             set_val "${DEV_ARR[$idx]}" "ipv4.dns-search" "$DOM"
 # отключаем IPv6
-            set_val "${DEV_ARR[$idx]}" "ipv6.method" "ignore"
+# см. выше , disabled появился только в версии 1.20
+            VER="$( nmcli -v | awk '{ print $4 }' )"
+            CHECK="$( echo -e "$NMCLI_VER\n$VER" | sort | tail -n 1 )"
+                if [[ "$VER" == "$CHECK" ]]
+                then
+#                    echo "$VER версия выше $NMCLI_VER"
+                    set_val "${DEV_ARR[$idx]}" "ipv6.method" "disabled"
+                else
+#                    echo "$VER версия ниже $NMCLI_VER"
+                    set_val "${DEV_ARR[$idx]}" "ipv6.method" "ignore"
+                fi
 # перезапускаем
             down_up "${DEV_ARR[$idx]}"
         else
