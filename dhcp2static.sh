@@ -226,14 +226,14 @@ do
 # см. выше , disabled появился только в версии 1.20
             VER="$( nmcli -v | awk '{ print $4 }' )"
             CHECK="$( echo -e "$NMCLI_VER\n$VER" | sort | tail -n 1 )"
-                if [[ "$VER" == "$CHECK" ]]
-                then
-#                    echo "$VER версия выше $NMCLI_VER"
-                    set_val "${DEV_ARR[$idx]}" "ipv6.method" "disabled"
-                else
-#                    echo "$VER версия ниже $NMCLI_VER"
-                    set_val "${DEV_ARR[$idx]}" "ipv6.method" "ignore"
-                fi
+            if [[ "$VER" == "$CHECK" ]]
+            then
+#                echo "$VER версия выше $NMCLI_VER"
+                set_val "${DEV_ARR[$idx]}" "ipv6.method" "disabled"
+            else
+#                echo "$VER версия ниже $NMCLI_VER"
+                set_val "${DEV_ARR[$idx]}" "ipv6.method" "ignore"
+            fi
 # перезапускаем
             down_up "${DEV_ARR[$idx]}"
         else
