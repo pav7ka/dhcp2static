@@ -136,11 +136,6 @@ function hostnm() {
     nmcli general hostname "$1"
 }
 
-function check_ver() {
-    VER = "${nmcli -v | awk '{ print $4 }'}"
-    if 
-}
-
 #
 # логика обработки выключенных сетевых устройств
 # они не имеют UUID ( он пустой )  пока не включишь
